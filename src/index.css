@@ -1,0 +1,711 @@
+/*============================= RESET ==============================*/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --black: #0a0a0a;
+  --white: #f7f7f7;
+  --off-white: #f5f5f3;
+  --gold: #c6a15b;
+  --text-dark: #111111;
+  --dark-gray: #151515;
+  --text-muted: #777777;
+}
+
+body {
+  background: var(--white);
+  color: var(--text-dark);
+  line-height: 1.5;
+  font-family: "saira";
+  position: relative;
+}
+
+.container {
+  width: 92%;
+  margin: 0 auto;
+}
+
+section .container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+section {
+  padding: 3rem 0;
+  width: 100%;
+}
+
+.btn {
+  padding: 1rem 1.5rem;
+  font-size: inherit;
+  border: none;
+  font-weight: 600;
+  font: inherit;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.primary-btn {
+  background: #000;
+  color: #fff;
+}
+
+/*========================= NAV ===========================*/
+
+nav {
+  display: flex;
+  position: fixed;
+  width: 100%;
+  top: 10;
+  z-index: 11;
+  background: #fff;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.2rem auto;
+}
+
+.nav-links {
+  display: none;
+}
+
+@media (min-width: 764px) {
+  .nav-links {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+}
+
+.menu-button {
+  display: block;
+}
+
+@media (min-width: 764px) {
+  .menu-button {
+    display: none;
+  }
+}
+
+.nav-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/*========================== HERO =========================*/
+
+.hero {
+  padding-top: 8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background: #000;
+  color: #fff;
+  /*
+  width: 100%;
+  height: 100vh;
+  */
+}
+
+@media (min-width: 768px) {
+  .hero {
+    width: 100%;
+    height: 100vh;
+  }
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: hsla(0, 0%, 0%, 0.555);
+  z-index: 2;
+}
+
+.hero-bg-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+  z-index: 1;
+}
+
+.hero-bg-slide.active {
+  opacity: 1;
+}
+
+.hero-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  z-index: 10;
+}
+
+.hero-container h1,
+.cta-section h2 {
+  font-size: 64px;
+}
+
+p {
+  max-width: 300px;
+}
+
+.hero-btn-container {
+  margin-top: 1rem;
+}
+
+.button-container {
+  margin: 1rem auto 0;
+  min-width: 100%;
+}
+
+.hero .btn {
+  background: #fff;
+  color: #000;
+  width: fit-content;
+}
+
+/*========================== NEW PRODUCTS SECTION ===========================*/
+
+.section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.new-arrivals .products-grid {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+}
+
+.new-arrivals .products-grid .watch-card {
+  min-width: 48%;
+}
+
+@media (min-width: 768px) {
+  .new-arrivals .products-grid .watch-card {
+    min-width: 24%;
+  }
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .products-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.new-arrivals .products-grid {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+}
+
+.section-button-container {
+  width: 100%;
+}
+
+.section-button {
+  margin: 0 auto;
+}
+
+.product-img-container {
+  aspect-ratio: 1/1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.watch-card .bottom,
+.watch-card .button-container {
+  padding: 1rem;
+}
+
+.watch-card button {
+  width: 100%;
+}
+
+/*======================= FOOTER ======================*/
+
+footer {
+  padding-top: 2rem;
+  background: #000;
+  color: #fff;
+}
+
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 5rem;
+}
+
+.footer-bottom {
+  margin-top: 3rem;
+  padding: 1rem 0;
+  width: 100%;
+}
+
+.footer-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+@media (min-width: 768px) {
+  .footer-sections {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.footer-section-contents {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.link {
+  text-decoration: none;
+}
+
+nav .link,
+.nav-actions .link {
+  color: inherit;
+}
+
+footer .link {
+  color: #fff;
+}
+
+/*================================== WATCH CARD ===================================*/
+
+.watch-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 400px; /* Setting a fixed height prevents extra growth */
+  border: 1px solid #eee;
+  background: #fff;
+  overflow: hidden; /* Keeps everything clean inside the borders */
+}
+
+.watch-card .btn {
+  margin-top: auto;
+}
+
+.watch-card .bottom {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.product-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.product-price {
+  font-weight: 700;
+}
+
+.product-brand-name {
+  font-size: 12px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.button-container .tag {
+  font-size: 12px;
+}
+
+/*====================== BRAND INTERFACE ==================*/
+
+.brand-interface {
+  border: 2px solid grey;
+  aspect-ratio: 1/0.5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-categories .section-contents {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/*============================== CTA =================================*/
+
+.cta-section {
+  min-height: 50vh;
+  background: #000;
+  color: #fff;
+}
+
+.fs2rem {
+  font-size: 2rem;
+}
+
+.quantity-control {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/*
+.quantity-control > span {
+  border: 2px solid green;
+  flex-grow: 1;
+}
+*/
+
+.refund-text {
+  max-width: 100%;
+  font-size: 12px;
+}
+
+.each-watch-detail {
+  display: flex;
+  flex-direction: column;
+  /*
+  padding: 3rem 0;
+  */
+}
+
+.each-watch-detail div {
+  display: flex;
+  flex-direction: column;
+}
+
+.watch-description {
+  padding: 2rem 0;
+}
+
+.watch-details-page div {
+  padding: 1.5rem 0;
+}
+
+.watch-details .product-img-container img {
+  width: 100%;
+}
+
+/*============================ WATCH DETAILS ENDED ============================*/
+
+/*============================= CART ========================================*/
+
+.cart-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-items {
+  display: grid;
+  gap: 1rem;
+}
+
+.cart-item {
+  display: flex;
+  gap: 1rem;
+}
+
+.cart-item .product-img-container img {
+  display: block;
+  width: 100%;
+}
+
+.cart-item > div {
+  width: 30%;
+}
+
+.cart-item-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 0.5rem;
+  justify-content: space-between;
+}
+
+.cart-header {
+  padding: 1.5rem 0;
+  background: #fff;
+  flex-grow: 0;
+}
+
+.cart-header .container {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+}
+
+.cart-header .container span {
+  display: flex;
+  gap: 1rem;
+  flex-direction: row;
+}
+
+.subtotal-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cart-footer {
+  padding: 1.5rem 0;
+  background: #fff;
+  flex-grow: 0;
+  margin-top: auto;
+}
+
+.quantity-setter {
+  display: flex;
+  align-items: center;
+  border: 1px solid grey;
+}
+
+.quantity-setter button {
+  flex-grow: 0;
+  width: 25%;
+  padding: 0.5rem;
+  font-size: 16px;
+  background: #fff;
+  border: none;
+}
+
+.quantity-setter span {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left: 1px solid grey;
+  border-right: 1px solid grey;
+  height: 100%;
+  background: rgba(241, 241, 241, 0.998);
+}
+
+.watch-brand-name {
+  font-size: 12px;
+}
+
+.remove-btn-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding-top: 0.5rem;
+}
+
+/*==================================== CHECKOUT PAGE ===================================*/
+
+.checkout-form,
+.auth-form {
+  display: grid;
+  gap: 1.5rem;
+  margin: 2rem auto;
+}
+
+.checkout-form div,
+.auth-form div {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.checkout-form div label,
+.auth-form div label {
+  position: absolute;
+  top: -8px;
+  left: 12px;
+  background: #fff;
+  padding: 0 0.5rem;
+  z-index: 3;
+}
+
+label {
+  font-size: 12px;
+}
+
+input {
+  border: 1px solid black;
+  padding: 1rem;
+  width: 100%;
+}
+
+select {
+  padding: 1rem;
+  width: fit-content;
+  border: 1px solid black;
+}
+
+.confirm-purchase-container {
+  background: #000;
+  color: #fff;
+  padding: 3rem;
+}
+
+.auth-container {
+  padding: 2rem;
+  border: 2px solid green;
+}
+.auth-page {
+  border: 2px solid green;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.auth-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.btn-disabled {
+  background-color: #e5e5e5;
+  color: #777;
+  border: 1px solid #ccc;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.like-btn-status {
+  display: grid;
+  place-items: center;
+  width: fit-content !important;
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  padding: 8px;
+  background-color: transparent;
+  border: none;
+}
+
+.icon-container {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.icon-container span {
+  position: absolute;
+  background: #000;
+  color: #fff;
+  width: 20px;
+  height: 20px;
+  top: -8px;
+  right: -8px;
+  display: grid;
+  place-items: center;
+  border-radius: 100%;
+  font-size: 12px;
+}
+
+.logo {
+  font-weight: 700;
+}
+
+/* 1. Standard Syntax (Firefox, Chrome, Edge, Safari) */
+.scrollable-element {
+  scrollbar-width: thin; /* Options: auto | thin | none */
+  scrollbar-color: #3b82f6 #f3f4f6; /* format: [thumb color] [track color] */
+}
+
+/* 2. WebKit Syntax (Chrome, Edge, Safari, Opera) for advanced styling */
+.scrollable-element::-webkit-scrollbar {
+  width: 8px; /* Width of vertical scrollbar */
+  height: 8px; /* Height of horizontal scrollbar */
+}
+
+.scrollable-element::-webkit-scrollbar-track {
+  background: #f3f4f6; /* Color of the tracking area */
+  border-radius: 4px;
+}
+
+.scrollable-element::-webkit-scrollbar-thumb {
+  background-color: #3b82f6; /* Color of the draggable handle */
+  border-radius: 4px; /* Makes the handle rounded */
+  border: 2px solid #f3f4f6; /* Creates padding around thumb */
+}
+
+.shop {
+  padding: 8rem 0;
+}
+
+.watch-details-page {
+  padding-top: 3rem;
+}
+
+.watch-details-page .top .link {
+  display: flex;
+  gap: 0.5rem;
+  color: inherit;
+}
+
+.remove-btn-container button {
+  background: none;
+  border: none;
+}
+
+.product-img-container {
+  width: 100%;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+}
+
+.product-img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 👈 Centers and crops the image perfectly without stretching */
+  display: block;
+  object-position: center;
+}
+
+/* CSS Styles */
+
+.product-info {
+  flex-grow: 1; /* Fills up the remaining space perfectly */
+  padding: 16px;
+}
