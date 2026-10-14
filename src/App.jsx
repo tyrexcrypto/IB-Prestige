@@ -196,7 +196,7 @@ function App() {
 
   const wishlistCount = wishlist.length;
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/IB-Prestige">
       <Routes>
         <Route
           path="/"
