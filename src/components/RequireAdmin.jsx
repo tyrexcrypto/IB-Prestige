@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 
 const ADMIN_UID = "d18f58e1-1fc0-4138-ba13-0dda15c55979";
 
 function RequireAdmin({ children }) {
   const [status, setStatus] = useState("checking");
+  const location = useLocation();
 
   useEffect(() => {
     let active = true;
@@ -37,17 +38,18 @@ function RequireAdmin({ children }) {
 
     return () => {
       active = false;
-      subscription.unsubscribe;
+      subscription.unsubscribe();
     };
   }, []);
 
   if (status === "checking") {
-    return <p role="status">Checking Admin Access...</p>;
+    return <p role="status">Checking admin access...</p>;
   }
 
   if (status === "unauthorized") {
-    return <Navigate to="/admin/login" replace />;
+    return <Navigate to="/admin/login" replace state={{ from: location }} />;
   }
+
   return children;
 }
 

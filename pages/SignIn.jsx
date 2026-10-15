@@ -1,20 +1,21 @@
 import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { supabase } from "../src/lib/supabaseClient";
 
-import { Link } from "react-router-dom";
+const ADMIN_UID = "d18f58e1-1fc0-4138-ba13-0dda15c55979";
 
 function SignIn() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [formData, setFormData] = useState({
     email: "",
-
     password: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
-
   const [errors, setErrors] = useState({});
-
   const [submitError, setSubmitError] = useState("");
-
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   function handleChange(event) {
@@ -22,13 +23,11 @@ function SignIn() {
 
     setFormData((previous) => ({
       ...previous,
-
       [name]: value,
     }));
 
     setErrors((previous) => ({
       ...previous,
-
       [name]: "",
     }));
 
@@ -51,29 +50,43 @@ function SignIn() {
 
   async function handleSubmit(event) {
     event.preventDefault();
-
     setSubmitError("");
 
     const newErrors = validateForm();
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-
       return;
     }
 
     setIsSubmitting(true);
 
     try {
-      // Supabase sign-in will go here.
-      // Example:
-      // const { data, error } =
-      //   await supabase.auth.signInWithPassword({
-      //     email: formData.email,
-      //     password: formData.password,
-      //   });
-      //
-      // if (error) throw error;
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: formData.email.trim().toLowerCase(),
+        password: formData.password,
+      });
+
+      if (error) throw error;
+
+      if (!data.user) {
+        throw new Error("We couldn't retrieve your account. Please try again.");
+      }
+
+      if (data.user.id === ADMIN_UID) {
+        navigate("/admin/products", { replace: true });
+        return;
+      }
+
+      const requestedPath = location.state?.from?.pathname;
+
+      // Do not redirect ordinary customers into admin routes.
+      const safePath =
+        requestedPath && !requestedPath.startsWith("/admin")
+          ? requestedPath
+          : "/";
+
+      navigate(safePath, { replace: true });
     } catch (error) {
       setSubmitError(
         error.message || "Unable to sign in. Please check your details.",
@@ -89,20 +102,15 @@ function SignIn() {
         <div className="auth-container">
           <div className="auth-header">
             <p className="eyebrow">IB PRESTIGE</p>
-
             <h1>Welcome back</h1>
-
             <p>Sign in to access your account, wishlist, and orders.</p>
           </div>
 
           <form className="auth-form" onSubmit={handleSubmit} noValidate>
-            {/* EMAIL */}
-
             <div className="form-field">
-              <label htmlFor="email">Email address</label>
-
+              <label htmlFor="signin-email">EMAIL ADDRESS</label>
               <input
-                id="email"
+                id="signin-email"
                 name="email"
                 type="email"
                 value={formData.email}
@@ -110,30 +118,23 @@ function SignIn() {
                 placeholder="you@example.com"
                 autoComplete="email"
                 aria-invalid={Boolean(errors.email)}
-                aria-describedby={errors.email ? "email-error" : undefined}
+                aria-describedby={
+                  errors.email ? "signin-email-error" : undefined
+                }
+                required
               />
-
               {errors.email && (
-                <p id="email-error" className="field-error">
+                <p id="signin-email-error" className="field-error">
                   {errors.email}
                 </p>
               )}
             </div>
 
-            {/* PASSWORD */}
-
             <div className="form-field">
-              {/* 
-                <div className="field-header">  </div>
-              */}
-
-              <label htmlFor="password">Password</label>
-
-              {/*  <Link to="/forgot-password">Forgot password?</Link> */}
-
+              <label htmlFor="signin-password">PASSWORD</label>
               <div className="password-wrapper">
                 <input
-                  id="password"
+                  id="signin-password"
                   name="password"
                   type={showPassword ? "text" : "password"}
                   value={formData.password}
@@ -142,10 +143,10 @@ function SignIn() {
                   autoComplete="current-password"
                   aria-invalid={Boolean(errors.password)}
                   aria-describedby={
-                    errors.password ? "password-error" : undefined
+                    errors.password ? "signin-password-error" : undefined
                   }
+                  required
                 />
-
                 <button
                   type="button"
                   className="password-toggle"
@@ -155,23 +156,18 @@ function SignIn() {
                   {showPassword ? "Hide" : "Show"}
                 </button>
               </div>
-
               {errors.password && (
-                <p id="password-error" className="field-error">
+                <p id="signin-password-error" className="field-error">
                   {errors.password}
                 </p>
               )}
             </div>
-
-            {/* GENERAL ERROR */}
 
             {submitError && (
               <div className="form-error" role="alert">
                 {submitError}
               </div>
             )}
-
-            {/* SUBMIT */}
 
             <button
               type="submit"

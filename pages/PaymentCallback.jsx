@@ -1,97 +1,145 @@
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { supabase } from "../src/lib/supabaseClient.js";
+import { Link, useLocation } from "react-router-dom";
+import { supabase } from "../src/lib/supabaseClient";
+import "./PaymentCallback.css";
 
-function PaymentCallback({ setCart }) {
-  const [searchParams] = useSearchParams();
-  const [status, setStatus] = useState("checking");
-  const [message, setMessage] = useState("Verifying your payment securely...");
+export default function PaymentCallback({ setCart }) {
+  const location = useLocation();
+
+  const [status, setStatus] = useState("verifying");
+  const [message, setMessage] = useState(
+    "Please wait while we confirm your payment.",
+  );
+  const [orderNumber, setOrderNumber] = useState("");
 
   useEffect(() => {
-    let active = true;
+    let cancelled = false;
 
-    async function verify() {
-      const reference =
-        searchParams.get("reference") || searchParams.get("trxref");
+    async function verifyPayment() {
+      const params = new URLSearchParams(location.search);
+      const reference = params.get("reference") || params.get("trxref");
 
       if (!reference) {
-        setStatus("unknown");
+        setStatus("error");
         setMessage(
-          "We couldn't find a payment reference. Please contact support if you completed payment.",
+          "We couldn't find a payment reference in this URL. Please contact support before attempting another payment.",
         );
         return;
       }
 
+      setStatus("verifying");
+      setMessage("Please wait while we confirm your payment.");
+
       try {
         const { data, error } = await supabase.functions.invoke(
           "verify-payment",
-          { body: { reference } },
+          {
+            body: { reference },
+          },
         );
 
-        if (error) throw error;
+        if (error) {
+          throw new Error(error.message || "Payment verification failed.");
+        }
 
-        if (!active) return;
-
-        if (data?.status === "success") {
-          setStatus("success");
-          setMessage(
-            "Your payment has been verified and your order is confirmed.",
-          );
-          setCart([]);
-        } else {
-          setStatus("pending");
-          setMessage(
-            "Your payment is not confirmed yet. Please wait a moment before trying again, and do not pay a second time.",
+        if (data?.success !== true) {
+          throw new Error(
+            data?.error ||
+              data?.message ||
+              "We couldn't confirm your payment yet.",
           );
         }
-      } catch {
-        if (!active) return;
-        setStatus("pending");
+
+        if (cancelled) return;
+
+        setOrderNumber(data.orderNumber || data.order_number || "");
+        setStatus("success");
         setMessage(
-          "We couldn't verify the payment right now. Your payment may still be processing. Please check again shortly or contact support.",
+          "Your payment has been verified. Thank you for shopping with IB Prestige.",
+        );
+
+        if (typeof setCart === "function") {
+          setCart([]);
+        }
+      } catch (error) {
+        if (cancelled) return;
+
+        console.error("Payment callback verification error:", error);
+
+        setStatus("error");
+        setMessage(
+          `We couldn't confirm your payment right now. Your payment may still have succeeded, so please don't pay again. Contact support with this reference: ${reference}`,
         );
       }
     }
 
-    verify();
+    verifyPayment();
 
     return () => {
-      active = false;
+      cancelled = true;
     };
-  }, [searchParams, setCart]);
+  }, [location.search, setCart]);
 
   return (
-    <main className="container" style={{ paddingBlock: "5rem" }}>
-      <h1>
-        {status === "checking" && "VERIFYING PAYMENT"}
-        {status === "success" && "PAYMENT CONFIRMED"}
-        {status === "pending" && "PAYMENT PROCESSING"}
-        {status === "unknown" && "PAYMENT STATUS"}
-      </h1>
+    <main className="payment-callback">
+      <section className="payment-callback__card" aria-live="polite">
+        {status === "verifying" && (
+          <>
+            <div className="payment-callback__spinner" />
+            <p className="payment-callback__eyebrow">PAYMENT STATUS</p>
+            <h1>Confirming your payment</h1>
+            <p>{message}</p>
+            <p className="payment-callback__note">
+              Please keep this page open. Do not pay again while verification is
+              in progress.
+            </p>
+          </>
+        )}
 
-      <p role="status">{message}</p>
+        {status === "success" && (
+          <>
+            <div className="payment-callback__icon payment-callback__icon--success">
+              ✓
+            </div>
+            <p className="payment-callback__eyebrow">PAYMENT CONFIRMED</p>
+            <h1>Thank you for your order!</h1>
+            <p>{message}</p>
 
-      {status === "success" ? (
-        <Link className="btn secondary-btn" to="/">
-          Continue shopping
-        </Link>
-      ) : (
-        <>
-          <button
-            className="btn secondary-btn"
-            type="button"
-            onClick={() => window.location.reload()}
-            disabled={status === "checking"}
-          >
-            Check payment again
-          </button>
-          <p>
-            <Link to="/shop">Return to shop</Link>
-          </p>
-        </>
-      )}
+            {orderNumber && (
+              <p className="payment-callback__order">
+                Order number: <strong>{orderNumber}</strong>
+              </p>
+            )}
+
+            <Link to="/" className="payment-callback__button">
+              Continue shopping
+            </Link>
+          </>
+        )}
+
+        {status === "error" && (
+          <>
+            <div className="payment-callback__icon payment-callback__icon--error">
+              !
+            </div>
+            <p className="payment-callback__eyebrow">VERIFICATION PENDING</p>
+            <h1>We haven't confirmed your payment</h1>
+            <p>{message}</p>
+
+            <button
+              type="button"
+              className="payment-callback__button"
+              onClick={() => window.location.reload()}
+            >
+              Check payment again
+            </button>
+
+            <Link to="/" className="payment-callback__secondary">
+              Return to store
+            </Link>
+          </>
+        )}
+      </section>
     </main>
   );
 }
-
-export default PaymentCallback;

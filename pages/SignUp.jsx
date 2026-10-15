@@ -1,26 +1,20 @@
 import { useState } from "react";
-
 import { Link } from "react-router-dom";
+import { supabase } from "../src/lib/supabaseClient";
 
 function SignUp() {
   const [formData, setFormData] = useState({
     fullName: "",
-
     email: "",
-
     password: "",
-
     confirmPassword: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
-
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   const [errors, setErrors] = useState({});
-
   const [submitError, setSubmitError] = useState("");
-
+  const [submitSuccess, setSubmitSuccess] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   function handleChange(event) {
@@ -28,19 +22,16 @@ function SignUp() {
 
     setFormData((previous) => ({
       ...previous,
-
       [name]: value,
     }));
 
-    // Remove the error for this field as soon as the user edits it.
-
     setErrors((previous) => ({
       ...previous,
-
       [name]: "",
     }));
 
     setSubmitError("");
+    setSubmitSuccess("");
   }
 
   function validateForm() {
@@ -52,7 +43,7 @@ function SignUp() {
 
     if (!formData.email.trim()) {
       newErrors.email = "Please enter your email address.";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "Please enter a valid email address.";
     }
 
@@ -75,30 +66,45 @@ function SignUp() {
     event.preventDefault();
 
     setSubmitError("");
+    setSubmitSuccess("");
 
     const newErrors = validateForm();
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-
       return;
     }
 
     setIsSubmitting(true);
 
     try {
-      // Supabase signup will go here.
-      // Example:
-      // const { data, error } = await supabase.auth.signUp({
-      //   email: formData.email,
-      //   password: formData.password,
-      //   options: {
-      //     data: {
-      //       full_name: formData.fullName,
-      //     },
-      //   },
-      // });
-      // if (error) throw error;
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email.trim().toLowerCase(),
+        password: formData.password,
+        options: {
+          data: {
+            full_name: formData.fullName.trim(),
+          },
+          emailRedirectTo: `${window.location.origin}/signin`,
+        },
+      });
+
+      if (error) throw error;
+
+      if (data.session) {
+        setSubmitSuccess("Your account has been created. You can now sign in.");
+      } else {
+        setSubmitSuccess(
+          "Your account has been created. Please check your email for a confirmation link before signing in.",
+        );
+      }
+
+      setFormData({
+        fullName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
     } catch (error) {
       setSubmitError(
         error.message || "Something went wrong. Please try again.",
@@ -114,22 +120,15 @@ function SignUp() {
         <div className="auth-container">
           <div className="auth-header">
             <p className="eyebrow">IB PRESTIGE</p>
-
             <h1>Create your account</h1>
-
             <p>
               Join IB Prestige to manage your account, wishlist, and orders.
             </p>
           </div>
 
           <form className="auth-form" onSubmit={handleSubmit} noValidate>
-            {/* FULL NAME */}
-
             <div className="form-field">
-              <span>
-                <label htmlFor="fullName">FULL NAME</label>
-              </span>
-
+              <label htmlFor="fullName">FULL NAME</label>
               <input
                 id="fullName"
                 name="fullName"
@@ -142,8 +141,8 @@ function SignUp() {
                 aria-describedby={
                   errors.fullName ? "fullName-error" : undefined
                 }
+                required
               />
-
               {errors.fullName && (
                 <p id="fullName-error" className="field-error">
                   {errors.fullName}
@@ -151,13 +150,10 @@ function SignUp() {
               )}
             </div>
 
-            {/* EMAIL */}
-
             <div className="form-field">
-              <label htmlFor="email">EMAIL ADDRESS</label>
-
+              <label htmlFor="signup-email">EMAIL ADDRESS</label>
               <input
-                id="email"
+                id="signup-email"
                 name="email"
                 type="email"
                 value={formData.email}
@@ -165,24 +161,23 @@ function SignUp() {
                 placeholder="you@example.com"
                 autoComplete="email"
                 aria-invalid={Boolean(errors.email)}
-                aria-describedby={errors.email ? "email-error" : undefined}
+                aria-describedby={
+                  errors.email ? "signup-email-error" : undefined
+                }
+                required
               />
-
               {errors.email && (
-                <p id="email-error" className="field-error">
+                <p id="signup-email-error" className="field-error">
                   {errors.email}
                 </p>
               )}
             </div>
 
-            {/* PASSWORD */}
-
             <div className="form-field">
-              <label htmlFor="password">PASSWORD</label>
-
+              <label htmlFor="signup-password">PASSWORD</label>
               <div className="password-wrapper">
                 <input
-                  id="password"
+                  id="signup-password"
                   name="password"
                   type={showPassword ? "text" : "password"}
                   value={formData.password}
@@ -191,10 +186,10 @@ function SignUp() {
                   autoComplete="new-password"
                   aria-invalid={Boolean(errors.password)}
                   aria-describedby={
-                    errors.password ? "password-error" : undefined
+                    errors.password ? "signup-password-error" : undefined
                   }
+                  required
                 />
-
                 <button
                   type="button"
                   className="password-toggle"
@@ -204,19 +199,15 @@ function SignUp() {
                   {showPassword ? "Hide" : "Show"}
                 </button>
               </div>
-
               {errors.password && (
-                <p id="password-error" className="field-error">
+                <p id="signup-password-error" className="field-error">
                   {errors.password}
                 </p>
               )}
             </div>
 
-            {/* CONFIRM PASSWORD */}
-
             <div className="form-field">
               <label htmlFor="confirmPassword">CONFIRM PASSWORD</label>
-
               <div className="password-wrapper">
                 <input
                   id="confirmPassword"
@@ -228,10 +219,12 @@ function SignUp() {
                   autoComplete="new-password"
                   aria-invalid={Boolean(errors.confirmPassword)}
                   aria-describedby={
-                    errors.confirmPassword ? "confirmPassword-error" : undefined
+                    errors.confirmPassword
+                      ? "confirm-password-error"
+                      : undefined
                   }
+                  required
                 />
-
                 <button
                   type="button"
                   className="password-toggle"
@@ -245,15 +238,12 @@ function SignUp() {
                   {showConfirmPassword ? "Hide" : "Show"}
                 </button>
               </div>
-
               {errors.confirmPassword && (
-                <p id="confirmPassword-error" className="field-error">
+                <p id="confirm-password-error" className="field-error">
                   {errors.confirmPassword}
                 </p>
               )}
             </div>
-
-            {/* GENERAL ERROR */}
 
             {submitError && (
               <div className="form-error" role="alert">
@@ -261,7 +251,12 @@ function SignUp() {
               </div>
             )}
 
-            {/* SUBMIT */}
+            {submitSuccess && (
+              <p className="form-success" role="status">
+                {submitSuccess}
+              </p>
+            )}
+
             <div className="button-container">
               <button
                 type="submit"
