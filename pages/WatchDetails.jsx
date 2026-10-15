@@ -59,82 +59,96 @@ function WatchDetails({
     <>
       <Nav cartCount={cartCount} wishlistCount={wishlistCount} />
 
-      <main className="watch-details-page container">
-        <div className="top">
-          <Link className="link" to="/shop">
-            <IconContainer>
-              <ArrowLeftIcon />
-            </IconContainer>
-            BACK TO SHOP
-          </Link>
-        </div>
-
-        <article className="watch-details">
-          <div className="product-img-container">
-            <img src={watch.img.src} alt={watch.name} />
+      <main className="watch-details-page">
+        <section
+          className="watch-details"
+          aria-label={`Details for ${watch.name}`}
+        >
+          <div className="top container">
+            <Link className="link" to="/shop">
+              <IconContainer>
+                <ArrowLeftIcon />
+              </IconContainer>
+              BACK TO SHOP
+            </Link>
           </div>
+          <div className="container">
+            <article className="watch-card">
+              <div className="product-img-container">
+                <img src={watch.img.src} alt={watch.name} />
+              </div>
 
-          <div className="each-watch-detail">
-            <div>
-              <p>{watch.brand.toUpperCase()}</p>
-              <h1>{watch.name.toUpperCase()}</h1>
-              <p>{formatPrice(watch.price)}</p>
-            </div>
+              <div className="actual-watch-detail">
+                <div>
+                  <p>{watch.brand.toUpperCase()}</p>
+                  <h1>{watch.name.toUpperCase()}</h1>
+                  <p className="price">{formatPrice(watch.price)}</p>
+                </div>
 
-            <article className="watch-description">{watch.description}</article>
+                <article className="watch-description">
+                  <h3>Description</h3>
+                  {watch.description}
+                </article>
+              </div>
+
+              <div className="watch-detail-buttons button-container">
+                <span className="quantity-control">
+                  <button
+                    className="btn decreaseBtn"
+                    onClick={() =>
+                      setQuantity((previous) => Math.max(1, previous - 1))
+                    }
+                    disabled={displayedQuantity === 1}
+                  >
+                    -
+                  </button>
+
+                  <span>{displayedQuantity}</span>
+
+                  <button
+                    className="btn increaseBtn"
+                    onClick={() =>
+                      setQuantity((previous) =>
+                        Math.min(availableQuantity, previous + 1),
+                      )
+                    }
+                    disabled={
+                      !inStock || displayedQuantity >= availableQuantity
+                    }
+                  >
+                    +
+                  </button>
+                </span>
+
+                <button
+                  className={inStock ? "btn primary-btn" : "btn btn-disabled"}
+                  disabled={!inStock}
+                  onClick={() => addToCart(watch, displayedQuantity)}
+                >
+                  {inStock ? "Add To Bag" : "Out Of Stock"}
+                </button>
+
+                <button
+                  className="btn secondary-btn"
+                  onClick={() =>
+                    isWishlisted
+                      ? removeFromWishlist(watch)
+                      : addToWishlist(watch)
+                  }
+                >
+                  {isWishlisted ? "Remove from wishlist" : "Add To Wishlist"}
+                </button>
+              </div>
+            </article>
           </div>
-
-          <div className="watch-detail-buttons button-container">
-            <span className="quantity-control">
-              <button
-                className="btn decreaseBtn"
-                onClick={() =>
-                  setQuantity((previous) => Math.max(1, previous - 1))
-                }
-                disabled={displayedQuantity === 1}
-              >
-                -
-              </button>
-
-              <span>{displayedQuantity}</span>
-
-              <button
-                className="btn increaseBtn"
-                onClick={() =>
-                  setQuantity((previous) =>
-                    Math.min(availableQuantity, previous + 1),
-                  )
-                }
-                disabled={!inStock || displayedQuantity >= availableQuantity}
-              >
-                +
-              </button>
-            </span>
-
-            <button
-              className={inStock ? "btn-primary" : "btn btn-disabled"}
-              disabled={!inStock}
-              onClick={() => addToCart(watch, displayedQuantity)}
-            >
-              {inStock ? "Add To Bag" : "Out Of Stock"}
-            </button>
-
-            <button
-              className="btn secondary-btn"
-              onClick={() =>
-                isWishlisted ? removeFromWishlist(watch) : addToWishlist(watch)
-              }
-            >
-              {isWishlisted ? "Remove from wishlist" : "Add To Wishlist"}
-            </button>
+        </section>
+        <section>
+          <div className="refund-policy container">
+            <p className="refund-text">
+              RETURNS ARE ACCEPTED WITHIN 3 DAYS. VIEW REFUND POLICY.
+            </p>
           </div>
-        </article>
-
-        <div>
-          <p className="refund-text">
-            RETURNS ARE ACCEPTED WITHIN 3 DAYS. VIEW REFUND POLICY.
-          </p>
-        </div>
+        </section>
       </main>
 
       <Footer />

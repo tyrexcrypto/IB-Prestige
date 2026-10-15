@@ -4,7 +4,7 @@ import Footer from "../src/components/Footer";
 
 import { Link } from "react-router-dom";
 
-import formatPrice from "../utils/priceFormatter";
+import WatchCard from "../src/components/WatchCard";
 
 function Wishlist({
   cartCount,
@@ -34,32 +34,12 @@ function Wishlist({
             ) : (
               <div className="products-grid">
                 {wishlist.map((watch) => (
-                  <article key={watch.id}>
-                    <Link to={`/shop/${watch.id}`}>
-                      <img src={watch.img.src} alt={watch.name} />
-
-                      <p>{watch.brand}</p>
-
-                      <h2>{watch.name}</h2>
-
-                      <p>{formatPrice(watch.price)}</p>
-                    </Link>
-
-                    <button
-                      type="button"
-                      disabled={watch.stockQuantity <= 0}
-                      onClick={() => addToCart(watch)}
-                    >
-                      {watch.stockQuantity ? "Add To Bag" : "Out Of Stock"}
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => removeFromWishlist(watch)}
-                    >
-                      Remove
-                    </button>
-                  </article>
+                  <WatchCard
+                    key={watch.id}
+                    watch={watch}
+                    addToCart={addToCart}
+                    removeFromWishlist={removeFromWishlist}
+                  />
                 ))}
               </div>
             )}

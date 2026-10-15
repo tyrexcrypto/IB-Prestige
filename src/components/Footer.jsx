@@ -19,13 +19,13 @@ function Footer() {
               <Link to="" className="link">
                 New Arrivals
               </Link>
-              <Link to="" className="link">
+              <Link to="/shop" className="link">
                 All Watches
               </Link>
               <Link to="" className="link">
                 Collections
               </Link>
-              <Link to="" className="link">
+              <Link to="/brands" className="link">
                 Brands
               </Link>
             </div>

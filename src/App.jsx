@@ -34,6 +34,8 @@ import RequireAdmin from "./components/RequireAdmin";
 
 import AdminEditProduct from "../pages/AdminEditProduct";
 
+import PaymentCallback from "../pages/PaymentCallback";
+
 function App() {
   function readStoredArray(key) {
     try {
@@ -196,7 +198,7 @@ function App() {
 
   const wishlistCount = wishlist.length;
   return (
-    <BrowserRouter basename="/IB-Prestige">
+    <BrowserRouter basename="IB-Prestigenpm/IB-Prestige">
       <Routes>
         <Route
           path="/"
@@ -324,6 +326,11 @@ function App() {
               <AdminEditProduct />
             </RequireAdmin>
           }
+        />
+
+        <Route
+          path="/payment/callback"
+          element={<PaymentCallback setCart={setCart} />}
         />
       </Routes>
     </BrowserRouter>
