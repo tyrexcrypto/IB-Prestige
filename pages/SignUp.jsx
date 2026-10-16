@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../src/lib/supabaseClient";
 
+import { EyeIconOpen, EyeIconClose } from "../src/components/icons/EyeIcons";
+
 function SignUp() {
   const [formData, setFormData] = useState({
     fullName: "",
@@ -119,8 +121,7 @@ function SignUp() {
       <section className="auth-section">
         <div className="container auth-container">
           <div className="auth-header">
-            <p className="eyebrow">IB PRESTIGE</p>
-            <h1>Create your account</h1>
+            <h2>Create your account</h2>
             <p>
               Join IB Prestige to manage your account, wishlist, and orders.
             </p>
@@ -196,7 +197,7 @@ function SignUp() {
                   onClick={() => setShowPassword((previous) => !previous)}
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? "Hide" : "Show"}
+                  {showPassword ? <EyeIconClose /> : <EyeIconOpen />}
                 </button>
               </div>
               {errors.password && (
@@ -235,7 +236,7 @@ function SignUp() {
                     showConfirmPassword ? "Hide password" : "Show password"
                   }
                 >
-                  {showConfirmPassword ? "Hide" : "Show"}
+                  {showConfirmPassword ? <EyeIconClose /> : <EyeIconOpen />}
                 </button>
               </div>
               {errors.confirmPassword && (

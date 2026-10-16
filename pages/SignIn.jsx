@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../src/lib/supabaseClient";
+import { EyeIconOpen, EyeIconClose } from "../src/components/icons/EyeIcons";
 
 const ADMIN_UID = "d18f58e1-1fc0-4138-ba13-0dda15c55979";
 
@@ -99,10 +100,9 @@ function SignIn() {
   return (
     <main className="auth-page">
       <section className="auth-section">
-        <div className="auth-container">
+        <div className="auth-container container">
           <div className="auth-header">
-            <p className="eyebrow">IB PRESTIGE</p>
-            <h1>Welcome back</h1>
+            <h2>Welcome back</h2>
             <p>Sign in to access your account, wishlist, and orders.</p>
           </div>
 
@@ -153,7 +153,7 @@ function SignIn() {
                   onClick={() => setShowPassword((previous) => !previous)}
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? "Hide" : "Show"}
+                  {showPassword ? <EyeIconClose /> : <EyeIconOpen />}
                 </button>
               </div>
               {errors.password && (

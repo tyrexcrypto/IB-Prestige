@@ -716,7 +716,12 @@ select {
 .auth-header {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0rem;
+}
+
+.auth-header p {
+  font-size: 14px;
+  color: #777;
 }
 
 .auth-form {
@@ -725,31 +730,34 @@ select {
   gap: 1rem;
 }
 
-.password-toggle {
-  position: absolute;
-  top: 50%;
-  right: 1rem;
-  transform: translateY(-50%);
-  cursor: pointer;
-}
-
 .form-field label {
   position: absolute;
   top: -8px;
   left: 12px;
   font-size: 10px;
   background: #fff;
-  padding: 0.2rem;
+  padding: 0.2rem 0.5rem;
   z-index: 2;
 }
 
 input {
   border-radius: 8px;
   border: 1px solid #ccc;
-  padding: 12px;
+  padding: 16px;
   width: 100%;
   font-size: 14px;
   position: relative;
+  font-family: inherit;
+}
+
+input :focus {
+  outline: none;
+  border-color: #000;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+input:focus + label {
+  color: #000;
 }
 
 .form-field {
@@ -758,16 +766,27 @@ input {
 
 .auth-switch {
   font-size: 12px;
+  text-align: center;
 }
 
 .auth-form button {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   background: #000;
   color: #fff;
   border: none;
   padding: 12px;
   border-radius: 8px;
   cursor: pointer;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  cursor: pointer;
+  background: none !important;
+  margin-top: 0 !important;
 }
 
 .auth-switch .link {
