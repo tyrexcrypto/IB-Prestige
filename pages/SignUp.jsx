@@ -117,7 +117,7 @@ function SignUp() {
   return (
     <main className="auth-page">
       <section className="auth-section">
-        <div className="auth-container">
+        <div className="container auth-container">
           <div className="auth-header">
             <p className="eyebrow">IB PRESTIGE</p>
             <h1>Create your account</h1>
@@ -269,7 +269,10 @@ function SignUp() {
           </form>
 
           <p className="auth-switch">
-            Already have an account? <Link to="/signin">Sign in</Link>
+            Already have an account?{" "}
+            <Link to="/signin" className="link">
+              Sign in
+            </Link>
           </p>
         </div>
       </section>

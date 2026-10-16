@@ -179,7 +179,10 @@ function SignIn() {
           </form>
 
           <p className="auth-switch">
-            Don't have an account? <Link to="/signup">Create an account</Link>
+            Don't have an account?{" "}
+            <Link to="/signup" className="link">
+              Create an account
+            </Link>
           </p>
         </div>
       </section>
