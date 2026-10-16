@@ -527,12 +527,12 @@ footer .link {
 
 .form-error {
   color: red;
+  font-size: 12px;
 }
 
 .form-success {
   color: green;
   font-size: 12px;
-  margin-top: 0.5rem;
 }
 
 label {
@@ -699,10 +699,32 @@ select {
 /*=============================== AUTHENTICATION PAGES ===============================*/
 
 .auth-page {
-  min-height: 100vh;
+  height: 100vh;
+}
+
+.auth-section {
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.graphics-section {
+  background-image: url("watchBGimage.jpg");
+}
+
+@media (max-width: 768px) {
+  .graphics-section {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .auth-page {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .auth-container {

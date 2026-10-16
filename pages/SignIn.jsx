@@ -186,6 +186,7 @@ function SignIn() {
           </p>
         </div>
       </section>
+      <section className="graphics-section"></section>
     </main>
   );
 }
