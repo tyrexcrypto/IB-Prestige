@@ -21,7 +21,10 @@ function Home({
 }) {
   return (
     <>
-      <NavBar cartCount={cartCount} wishlistCount={wishlistCount} />
+      <header>
+        <NavBar cartCount={cartCount} wishlistCount={wishlistCount} />
+      </header>
+
       <main>
         <Hero />
         <NewArrivals

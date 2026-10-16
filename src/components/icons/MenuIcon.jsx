@@ -10,7 +10,7 @@ function MenuIcon() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="lucide lucide-menu preview-icon"
+      className="lucide lucide-menu preview-icon menu-icon"
     >
       <path d="M4 5h16" />
       <path d="M4 12h16" />

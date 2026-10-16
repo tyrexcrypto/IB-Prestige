@@ -9,8 +9,8 @@ import IconContainer from "./IconContainer";
 function NavBar({ cartCount, wishlistCount }) {
   // nav-actions should be svgs not texts
   return (
-    <nav>
-      <div className="nav-container container">
+    <nav className="nav">
+      <div className="nav-container">
         <div className="logo">
           <Link to="/" className="link logo">
             IB PRESTIGE
@@ -30,29 +30,33 @@ function NavBar({ cartCount, wishlistCount }) {
         </div>
 
         <div className="nav-actions">
-          <SearchIcon />
-
-          <Link to="/cart" className="link">
-            <IconContainer>
+          <div>
+            <Link to="/cart" className="link">
               <CartIcon />
               <span>{cartCount}</span>
-            </IconContainer>
-          </Link>
+            </Link>
+          </div>
 
-          <Link to="/wishlist" className="link">
-            <IconContainer>
+          <div>
+            <Link to="/wishlist" className="link">
               <WishlistIcon />
               <span>{wishlistCount}</span>
-            </IconContainer>
-          </Link>
+            </Link>
+          </div>
 
-          <Link to="/signin" className="link" aria-label="navigate to sign-in">
-            <IconContainer>
+          <div>
+            <Link
+              to="/signin"
+              className="link"
+              aria-label="navigate to sign-in"
+            >
               <UserIcon />
-            </IconContainer>
-          </Link>
+            </Link>
+          </div>
 
-          <MenuIcon />
+          <button className="menu-button">
+            <MenuIcon />
+          </button>
         </div>
       </div>
     </nav>

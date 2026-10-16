@@ -40,8 +40,10 @@ function NewArrivals({
       <div className="container">
         <div className="section-header">
           <p className="eyebrow">JUST IN</p>
-          <h2>NEW ARRIVALS</h2>
-          <p>The latest additions to the IB Prestige collection.</p>
+          <h2 className="subheading">NEW ARRIVALS</h2>
+          <p className="text">
+            The latest additions to the IB Prestige collection.
+          </p>
         </div>
 
         <div className="section-contents products-grid">
@@ -62,11 +64,9 @@ function NewArrivals({
           )}
         </div>
 
-        <div className="button-container section-button-container">
-          <Link to="/shop" className="link btn primary-btn section-button">
-            VIEW ALL
-          </Link>
-        </div>
+        <Link to="/shop" className="link btn primary-btn">
+          VIEW ALL
+        </Link>
       </div>
     </section>
   );
