@@ -3,58 +3,69 @@ import MenuIcon from "./icons/MenuIcon";
 import UserIcon from "./icons/UserIcon";
 import CartIcon from "./icons/CartIcon";
 import WishlistIcon from "./icons/WishlistIcon";
+import SearchIcon from "./icons/SearchIcon";
+import IconContainer from "./IconContainer";
 
-function NavBar({ cartCount, wishlistCount }) {
-  // nav-actions should be svgs not texts
+function NavBar({ cartCount = 0, wishlistCount = 0 }) {
   return (
-    <nav className="nav">
-      <div className="nav-container">
-        <div className="logo">
-          <Link to="/" className="link logo">
-            IB PRESTIGE
-          </Link>
-        </div>
+    <nav aria-label="Main navigation">
+      <div className="nav-container container">
+        <Link to="/" className="link logo" aria-label="IB Prestige home">
+          IB PRESTIGE
+        </Link>
 
         <div className="nav-links">
           <Link to="/shop" className="link">
-            SHOP
+            SHOP ALL
           </Link>
           <Link to="/shop" className="link">
-            BRANDS
+            COLLECTIONS
           </Link>
           <Link to="/about" className="link">
-            ABOUT
+            OUR STORY
           </Link>
         </div>
 
         <div className="nav-actions">
-          <div>
-            <Link to="/cart" className="link">
+          <Link
+            to="/shop"
+            className="link nav-search-link"
+            aria-label="Search watches"
+          >
+            <SearchIcon />
+          </Link>
+          <Link
+            to="/cart"
+            className="link"
+            aria-label={`Shopping bag, ${cartCount} items`}
+          >
+            <IconContainer>
               <CartIcon />
               <span>{cartCount}</span>
-            </Link>
-          </div>
-
-          <div>
-            <Link to="/wishlist" className="link">
+            </IconContainer>
+          </Link>
+          <Link
+            to="/wishlist"
+            className="link"
+            aria-label={`Wishlist, ${wishlistCount} items`}
+          >
+            <IconContainer>
               <WishlistIcon />
               <span>{wishlistCount}</span>
-            </Link>
-          </div>
-
-          <div>
-            <Link
-              to="/signin"
-              className="link"
-              aria-label="navigate to sign-in"
-            >
+            </IconContainer>
+          </Link>
+          <Link to="/signin" className="link" aria-label="Sign in">
+            <IconContainer>
               <UserIcon />
-            </Link>
-          </div>
-
-          <button className="menu-button">
+            </IconContainer>
+          </Link>
+          <Link
+            to="/shop"
+            className="link menu-button"
+            aria-label="Browse collection"
+          >
             <MenuIcon />
-          </button>
+          </Link>
         </div>
       </div>
     </nav>
