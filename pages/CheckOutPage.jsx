@@ -99,15 +99,20 @@ function CheckOutPage({ cart, cartCount, wishlistCount }) {
         </div>
       </header>
 
-      <main>
-        <section className="form-section">
+      <main className="checkout-page">
+        <section className="checkout-section form-section">
           <div className="container">
-            <h1>CHECKOUT</h1>
-            <p>Order Total: {formatPrice(subtotal)}</p>
-            <p>Delivery fees, if applicable, will be shown before payment.</p>
+            <div className="top">
+              <h3>CHECKOUT</h3>
+              <p className="product-price">{formatPrice(subtotal)}</p>
+            </div>
+
+            <p style={{ fontSize: "14px" }}>
+              Delivery fees, if applicable, will be shown before payment.
+            </p>
 
             <form className="checkout-form" onSubmit={handleSubmit}>
-              <div>
+              <div className="form-field">
                 <label htmlFor="email">EMAIL</label>
                 <input
                   id="email"
@@ -120,7 +125,7 @@ function CheckOutPage({ cart, cartCount, wishlistCount }) {
                 />
               </div>
 
-              <div>
+              <div className="form-field">
                 <label htmlFor="recipientName">RECIPIENT NAME</label>
                 <input
                   id="recipientName"
@@ -132,7 +137,7 @@ function CheckOutPage({ cart, cartCount, wishlistCount }) {
                 />
               </div>
 
-              <div>
+              <div className="form-field">
                 <label htmlFor="phone">CONTACT NUMBER</label>
                 <input
                   id="phone"
@@ -145,7 +150,7 @@ function CheckOutPage({ cart, cartCount, wishlistCount }) {
                 />
               </div>
 
-              <div>
+              <div className="form-field">
                 <label htmlFor="address">DELIVERY ADDRESS</label>
                 <input
                   id="address"
@@ -157,7 +162,7 @@ function CheckOutPage({ cart, cartCount, wishlistCount }) {
                 />
               </div>
 
-              <div>
+              <div className="form-field">
                 <label htmlFor="city">CITY</label>
                 <input
                   id="city"
@@ -169,7 +174,7 @@ function CheckOutPage({ cart, cartCount, wishlistCount }) {
                 />
               </div>
 
-              <div>
+              <div className="form-field">
                 <label htmlFor="state">STATE</label>
                 <input
                   id="state"
@@ -181,19 +186,21 @@ function CheckOutPage({ cart, cartCount, wishlistCount }) {
                 />
               </div>
 
-              <label>
-                <input
-                  type="checkbox"
-                  checked={acceptedTerms}
-                  onChange={(event) => setAcceptedTerms(event.target.checked)}
-                />
-                I agree to the terms and conditions and return policy.
-              </label>
+              <div className="terms-con">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={acceptedTerms}
+                    onChange={(event) => setAcceptedTerms(event.target.checked)}
+                  />
+                  I agree to the terms and conditions and return policy.
+                </label>
+              </div>
 
               {error && <p role="alert">{error}</p>}
 
               <button
-                className="btn secondary-btn"
+                className="btn primary-btn "
                 type="submit"
                 disabled={isSubmitting}
               >

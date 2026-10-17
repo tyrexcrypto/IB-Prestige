@@ -30,6 +30,8 @@ import AdminLogin from "../pages/AdminLogin";
 
 import AdminProducts from "../pages/AdminProducts";
 
+import AdminOrders from "../pages/AdminOrders";
+
 import RequireAdmin from "./components/RequireAdmin";
 
 import AdminEditProduct from "../pages/AdminEditProduct";
@@ -315,6 +317,15 @@ function App() {
           element={
             <RequireAdmin>
               <AdminProducts />
+            </RequireAdmin>
+          }
+        />
+
+        <Route
+          path="/admin/orders"
+          element={
+            <RequireAdmin>
+              <AdminOrders />
             </RequireAdmin>
           }
         />
