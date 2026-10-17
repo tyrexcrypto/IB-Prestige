@@ -250,7 +250,7 @@ p {
   width: 100%;
 }
 
-/*======================= FOOTER ======================*/
+/*======================= FOOTER ======================
 
 footer {
   padding-top: 2rem;
@@ -296,9 +296,7 @@ footer {
   gap: 1rem;
 }
 
-.link {
-  text-decoration: none;
-}
+
 
 nav .link,
 .nav-actions .link {
@@ -311,17 +309,15 @@ footer .link {
 
 /*================================== WATCH CARD ===================================*/
 
+/*
+
 .watch-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  /* Setting a fixed height prevents extra growth */
   border: 1px solid #eee;
   background: #fff;
-  overflow: hidden; /* Keeps everything clean inside the borders */
-}
-
-.watch-card .btn {
+  overflow: hidden;
 }
 
 .watch-card .bottom {
@@ -329,6 +325,12 @@ footer .link {
   flex-direction: column;
   flex-grow: 1;
   gap: 1.5rem;
+}
+
+*/
+
+.link {
+  text-decoration: none;
 }
 
 .product-details {
@@ -809,6 +811,9 @@ input:focus + label {
   cursor: pointer;
   background: none !important;
   margin-top: 0 !important;
+  display: grid;
+  place-items: center;
+  border: none !important;
 }
 
 .auth-switch .link {
@@ -1132,6 +1137,7 @@ nav {
 .products-grid {
   gap: clamp(0.75rem, 1.5vw, 1.35rem);
 }
+
 .watch-card {
   min-width: 0;
   background: var(--ib-white);
@@ -1143,21 +1149,23 @@ nav {
     border-color 0.25s ease,
     box-shadow 0.25s ease;
 }
+
 .watch-card:hover {
   transform: translateY(-4px);
   border-color: var(--ib-line-strong);
   box-shadow: var(--ib-shadow);
 }
+
 .watch-card .top.product-img-container,
 .watch-card > .product-img-container {
   background: #f4f2ed;
   aspect-ratio: 1 / 1.04;
-  padding: 1rem;
 }
+
 .product-img-container img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   mix-blend-mode: multiply;
 }
 .watch-card .bottom {
@@ -1178,17 +1186,22 @@ nav {
   font-weight: 600;
   letter-spacing: -0.015em;
 }
+
 .product-price {
   font-size: 1rem;
   font-weight: 700;
 }
+
 .watch-card .button-container {
   padding: 0;
   gap: 0.5rem;
 }
+
 .watch-card .btn {
+  margin-top: 1rem;
   width: 100%;
 }
+
 .watch-card .like-btn-status {
   position: absolute;
   z-index: 2;
@@ -1203,9 +1216,11 @@ nav {
   border-radius: 50%;
   background: rgb(255 255 255 / 92%);
 }
+
 .watch-card .like-btn-status:hover {
   border-color: var(--ib-ink);
 }
+
 .watch-card .like-btn-status svg {
   width: 18px;
   height: 18px;
@@ -1791,22 +1806,26 @@ textarea {
   text-decoration: none;
 }
 
-/* Footer */
+/*========================================= Footer =====================================*/
+
 footer:not(.cart-footer) {
   padding: 4rem 0 0;
   background: var(--ib-ink);
   color: white;
 }
+
 .footer-container {
   width: min(92%, var(--ib-content));
   gap: 2.8rem;
   margin-top: 0;
 }
+
 .footer-top {
   display: flex;
   align-items: center;
   gap: 0.8rem;
 }
+
 .footer-logo {
   display: grid;
   place-items: center;
@@ -1817,21 +1836,27 @@ footer:not(.cart-footer) {
   font-size: 0.7rem;
   letter-spacing: 0.08em;
 }
+
 .logo-text {
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.16em;
 }
+
 .footer-sections {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 2rem;
-  padding-bottom: 2.5rem;
+  padding: 2.5rem 0;
   border-bottom: 1px solid rgb(255 255 255 / 16%);
 }
+
 .footer-section {
+  display: flex;
+  flex-direction: column;
   gap: 1.2rem;
 }
+
 .footer-section-header h2 {
   color: #c7b58f;
   font-size: 0.72rem;
@@ -1839,17 +1864,22 @@ footer:not(.cart-footer) {
   letter-spacing: 0.15em;
 }
 .footer-section-contents {
+  display: flex;
+  flex-direction: column;
   gap: 0.75rem;
 }
+
 footer .link {
   width: fit-content;
   color: rgb(255 255 255 / 72%);
   font-size: 0.88rem;
   text-decoration: none;
 }
+
 footer .link:hover {
   color: white;
 }
+
 .footer-bottom {
   display: flex;
   justify-content: space-between;
@@ -1938,10 +1968,7 @@ footer .link:hover {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.65rem;
   }
-  .watch-card .top.product-img-container,
-  .watch-card > .product-img-container {
-    padding: 0.5rem;
-  }
+
   .watch-card .bottom {
     padding: 0.8rem;
     gap: 0.85rem;
@@ -1957,6 +1984,7 @@ footer .link:hover {
   }
   .watch-card .btn {
     min-height: 40px;
+    margin-top: 1rem;
     padding: 0.6rem 0.4rem;
     font-size: 0.72rem;
   }
@@ -2037,10 +2065,13 @@ footer .link:hover {
   .auth-container {
     width: min(100% - 1.5rem, 440px);
   }
+
   .footer-sections {
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
+
   .footer-socials {
     grid-column: 1 / -1;
   }
