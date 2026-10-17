@@ -3,8 +3,6 @@ import MenuIcon from "./icons/MenuIcon";
 import UserIcon from "./icons/UserIcon";
 import CartIcon from "./icons/CartIcon";
 import WishlistIcon from "./icons/WishlistIcon";
-import SearchIcon from "./icons/SearchIcon";
-import IconContainer from "./IconContainer";
 
 function NavBar({ cartCount, wishlistCount }) {
   // nav-actions should be svgs not texts
