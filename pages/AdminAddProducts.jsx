@@ -1,147 +1,201 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { supabase } from "../src/lib/supabaseClient";
 
-function AdminAddProduct() {
-  const [formData, setFormData] = useState({
-    name: "",
-    brand: "",
-    category: "",
-    price: "",
-    stockQuantity: "",
-    description: "",
-    imageUrl: "",
-  });
+const ADMIN_UID = "d18f58e1-1fc0-4138-ba13-0dda15c55979";
+const IMAGE_BUCKET = "product-images";
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
+const INITIAL_FORM = {
+  name: "",
+  brand: "",
+  category: "",
+  price: "",
+  stockQuantity: "",
+  description: "",
+};
+
+function AdminAddProduct() {
+  const [formData, setFormData] = useState(INITIAL_FORM);
   const [isSaving, setIsSaving] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
+  const fileInputRef = useRef(null);
+  const previewUrlRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
+    };
+  }, []);
 
   function handleChange(event) {
     const { name, value } = event.target;
-    setFormData((previousData) => ({ ...previousData, [name]: value }));
+    setFormData((previous) => ({ ...previous, [name]: value }));
+    setErrorMessage("");
+    setSuccessMessage("");
   }
 
   function handleImageChange(event) {
     const file = event.target.files?.[0];
-
     if (!file) return;
 
     if (!file.type.startsWith("image/")) {
-      setErrorMessage("Please Select an Image file.");
+      setErrorMessage("Choose a valid image file.");
       event.target.value = "";
       return;
     }
 
-    if (file.size > 5 * 1034 * 1024) {
-      setErrorMessage("Image must be 5mb or smaller.");
+    if (file.size > MAX_IMAGE_SIZE) {
+      setErrorMessage("Image must be 5 MB or smaller.");
       event.target.value = "";
       return;
     }
 
-    setErrorMessage("");
+    if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
+    const previewUrl = URL.createObjectURL(file);
+    previewUrlRef.current = previewUrl;
+
     setImageFile(file);
-    setImagePreview(URL.createObjectURL(file));
+    setImagePreview(previewUrl);
+    setErrorMessage("");
+    setSuccessMessage("");
   }
 
-  useEffect(() => {
-    return () => {
-      if (imagePreview) {
-        URL.revokeObjectURL(imagePreview);
-      }
-    };
-  }, [imagePreview]);
+  function resetForm() {
+    setFormData(INITIAL_FORM);
+    setImageFile(null);
+    setImagePreview("");
+    if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
+    previewUrlRef.current = null;
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  }
 
   async function handleSubmit(event) {
     event.preventDefault();
-    setIsSaving(true);
-    setSuccessMessage("");
+    if (isSaving) return;
+
     setErrorMessage("");
+    setSuccessMessage("");
+
+    const price = Number(formData.price);
+    const stockQuantity = Number(formData.stockQuantity);
+
+    if (
+      !formData.name.trim() ||
+      !formData.brand.trim() ||
+      !formData.category ||
+      !formData.description.trim() ||
+      formData.price.trim() === "" ||
+      !Number.isFinite(price) ||
+      price < 0 ||
+      formData.stockQuantity.trim() === "" ||
+      !Number.isInteger(stockQuantity) ||
+      stockQuantity < 0
+    ) {
+      setErrorMessage(
+        "Complete every required field. Price must be zero or more, and stock must be a whole number of zero or more.",
+      );
+      return;
+    }
 
     if (!imageFile) {
       setErrorMessage("Please select a product image.");
-      setIsSaving(false);
       return;
     }
 
-    const safeFileName = imageFile.name.replace(/[^a-zA-Z0-9._-]/g, "-");
+    setIsSaving(true);
+    let uploadedPath = null;
 
-    const filePath = `${crypto.randomUUID()}-${safeFileName}`;
+    try {
+      // Keep uploads in the authenticated admin's folder to match the existing
+      // product-image storage policy used by the edit-product page.
+      const safeFileName = imageFile.name.replace(/[^a-zA-Z0-9._-]/g, "-");
+      uploadedPath = `${ADMIN_UID}/${crypto.randomUUID()}-${safeFileName}`;
 
-    const { error: uploadError } = await supabase.storage
-      .from("product-images")
-      .upload(filePath, imageFile, {
-        contentType: imageFile.type,
-        upsert: false,
-      });
+      const { error: uploadError } = await supabase.storage
+        .from(IMAGE_BUCKET)
+        .upload(uploadedPath, imageFile, {
+          contentType: imageFile.type,
+          upsert: false,
+        });
 
-    if (uploadError) {
-      setErrorMessage(uploadError.message);
-      setIsSaving(false);
-      return;
-    }
+      if (uploadError) throw uploadError;
 
-    const { data: imageData } = supabase.storage
-      .from("product-images")
-      .getPublicUrl(filePath);
+      const { data: imageData } = supabase.storage
+        .from(IMAGE_BUCKET)
+        .getPublicUrl(uploadedPath);
 
-    const imageUrl = imageData.publicUrl;
+      if (!imageData?.publicUrl) {
+        throw new Error("The uploaded image URL could not be created.");
+      }
 
-    const { data, error } = await supabase
-      .from("products")
-      .insert([
-        {
+      const { data: product, error: insertError } = await supabase
+        .from("products")
+        .insert({
           name: formData.name.trim(),
           brand: formData.brand.trim(),
           category: formData.category,
-          price: Number(formData.price),
-          stock_quantity: Number(formData.stockQuantity),
+          price,
+          stock_quantity: stockQuantity,
           description: formData.description.trim(),
-          image_url: imageUrl,
-        },
-      ])
-      .select()
-      .single();
+          image_url: imageData.publicUrl,
+        })
+        .select("id, name")
+        .single();
 
-    setIsSaving(false);
+      if (insertError) throw insertError;
+      if (!product)
+        throw new Error("The product was not returned after saving.");
 
-    if (error) {
-      setErrorMessage(error.message);
+      setSuccessMessage(`${product.name} was added successfully.`);
+      resetForm();
+    } catch (error) {
+      setErrorMessage(error?.message || "Couldn't add this product.");
+
+      // If the database insert failed after upload, remove the orphaned image.
+      if (uploadedPath) {
+        const { error: cleanupError } = await supabase.storage
+          .from(IMAGE_BUCKET)
+          .remove([uploadedPath]);
+
+        if (cleanupError) {
+          console.error(
+            "Unused product image cleanup failed:",
+            cleanupError.message,
+          );
+        }
+      }
+    } finally {
+      setIsSaving(false);
     }
-
-    setSuccessMessage(`${data.name} was saved successfully.`);
-
-    setFormData({
-      name: "",
-      brand: "",
-      category: "",
-      price: "",
-      stockQuantity: "",
-      description: "",
-      imageUrl: "",
-    });
-    setImageFile(null);
-    setImagePreview("");
   }
 
   return (
     <main className="add-admin-product container">
-      <h2>Add a new watch</h2>
-      <p>Enter the details of the product you want to list.</p>
+      <header>
+        <h1>Add a new watch</h1>
+        <p>Enter the product details to add a watch to the catalogue.</p>
+        <p>
+          <Link to="/admin/products">Back to products</Link> ·{" "}
+          <Link to="/admin/orders">View orders</Link>
+        </p>
+      </header>
+
+      {successMessage && <p role="status">{successMessage}</p>}
+      {errorMessage && <p role="alert">{errorMessage}</p>}
 
       <form onSubmit={handleSubmit}>
-        {successMessage && <p role="status">Success Message</p>}
-
-        {errorMessage && <p role="alert">Error Message</p>}
-
-        <label htmlFor="name">Name</label>
+        <label htmlFor="name">Watch name</label>
         <input
           id="name"
           name="name"
           value={formData.name}
           onChange={handleChange}
           required
+          maxLength={120}
         />
 
         <label htmlFor="brand">Brand</label>
@@ -151,6 +205,7 @@ function AdminAddProduct() {
           value={formData.brand}
           onChange={handleChange}
           required
+          maxLength={80}
         />
 
         <label htmlFor="category">Category</label>
@@ -161,12 +216,11 @@ function AdminAddProduct() {
           onChange={handleChange}
           required
         >
-          <option value="">Select A Category</option>
+          <option value="">Select a category</option>
           <option value="luxury">Luxury</option>
           <option value="classic">Classic</option>
           <option value="sport">Sport</option>
           <option value="casual">Casual</option>
-          <option value="expensive">Expensive</option>
         </select>
 
         <label htmlFor="price">Price (₦)</label>
@@ -200,11 +254,14 @@ function AdminAddProduct() {
           value={formData.description}
           onChange={handleChange}
           required
+          maxLength={5000}
         />
 
-        <label htmlFor="productImage">Product Image</label>
+        <label htmlFor="productImage">Product image (maximum 5 MB)</label>
         <input
+          ref={fileInputRef}
           id="productImage"
+          name="productImage"
           type="file"
           accept="image/*"
           onChange={handleImageChange}
@@ -215,14 +272,14 @@ function AdminAddProduct() {
           <div className="image-preview">
             <img
               src={imagePreview}
-              alt="preview of selected watch"
+              alt="Preview of the selected watch"
               style={{ width: "220px", maxWidth: "100%", objectFit: "contain" }}
             />
           </div>
         )}
 
         <button type="submit" disabled={isSaving}>
-          {isSaving ? "Saving..." : "Add Product"}
+          {isSaving ? "Saving product…" : "Add product"}
         </button>
       </form>
     </main>

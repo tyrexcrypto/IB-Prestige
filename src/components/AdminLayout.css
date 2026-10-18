@@ -1,0 +1,244 @@
+.ib-admin-shell {
+  --admin-ink: #171717;
+  --admin-muted: #77756f;
+  --admin-line: #e8e5df;
+  --admin-paper: #fff;
+  --admin-bg: #f7f6f3;
+  display: flex;
+  min-height: 100vh;
+  background: var(--admin-bg);
+  color: var(--admin-ink);
+  font-family: inherit;
+}
+.ib-admin-sidebar {
+  width: 248px;
+  flex: 0 0 248px;
+  background: #fff;
+  border-right: 1px solid var(--admin-line);
+  padding: 27px 17px 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 40;
+}
+.ib-admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  color: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0 9px 30px;
+}
+.ib-admin-brand-mark {
+  display: grid;
+  place-items: center;
+  width: 37px;
+  height: 37px;
+  background: #171717;
+  color: #fff;
+  font-family: Georgia, serif;
+  font-size: 17px;
+  letter-spacing: -0.05em;
+}
+.ib-admin-brand small {
+  display: block;
+  margin-top: 5px;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: #8c8982;
+  font-weight: 600;
+}
+.ib-admin-nav-label {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: #9b9891;
+  font-weight: 700;
+  padding: 0 12px;
+  margin: 4px 0 10px;
+}
+.ib-admin-nav {
+  display: grid;
+  gap: 5px;
+}
+.ib-admin-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 13px;
+  border-radius: 7px;
+  color: #68665f;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition:
+    background 0.18s,
+    color 0.18s;
+}
+.ib-admin-nav-link:hover {
+  background: #f6f5f2;
+  color: #171717;
+}
+.ib-admin-nav-link.active {
+  background: #f0eee9;
+  color: #171717;
+  font-weight: 750;
+}
+.ib-admin-nav-icon {
+  width: 18px;
+  text-align: center;
+  font-size: 17px;
+}
+.ib-admin-sidebar-bottom {
+  margin-top: auto;
+  border-top: 1px solid var(--admin-line);
+  padding-top: 14px;
+  display: grid;
+  gap: 5px;
+}
+.ib-admin-signout {
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 12px 13px;
+  color: #77736d;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 7px;
+}
+.ib-admin-signout:hover {
+  background: #f6f5f2;
+  color: #171717;
+}
+.ib-admin-main {
+  flex: 1;
+  min-width: 0;
+}
+.ib-admin-topbar {
+  height: 68px;
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid var(--admin-line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(20px, 4vw, 48px);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.ib-admin-topbar strong {
+  font-size: 13px;
+}
+.ib-admin-breadcrumb {
+  color: #96928a;
+  font-size: 13px;
+}
+.ib-admin-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6d6a63;
+  font-size: 12px;
+}
+.ib-admin-status i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4b9567;
+}
+.ib-admin-content {
+  padding: clamp(20px, 3vw, 38px);
+  max-width: 1500px;
+  margin: 0 auto;
+}
+.ib-admin-content > * {
+  max-width: 100%;
+}
+.ib-admin-mobile-toggle,
+.ib-admin-backdrop {
+  display: none;
+}
+@media (max-width: 760px) {
+  .ib-admin-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    transform: translateX(-105%);
+    transition: transform 0.2s;
+    box-shadow: none;
+  }
+  .ib-admin-sidebar.is-open {
+    transform: translateX(0);
+    box-shadow: 12px 0 36px #00000018;
+  }
+  .ib-admin-mobile-toggle {
+    display: grid;
+    place-items: center;
+    position: fixed;
+    top: 14px;
+    left: 14px;
+    width: 38px;
+    height: 38px;
+    z-index: 60;
+    border: 1px solid var(--admin-line);
+    border-radius: 7px;
+    background: #fff;
+    font-size: 19px;
+  }
+  .ib-admin-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: #17171766;
+    border: 0;
+    z-index: 30;
+  }
+  .ib-admin-topbar {
+    padding-left: 64px;
+    height: 66px;
+  }
+  .ib-admin-content {
+    padding: 20px 14px;
+  }
+  .ib-admin-status {
+    display: none;
+  }
+}
+.brand-interface {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.brand-card-cta {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  opacity: 0.68;
+}
+.shop-brand-filter-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 12px 12px 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #77756f;
+}
+.shop-brand-filter-label select {
+  min-height: 40px;
+  padding: 0 35px 0 12px;
+  border: 1px solid #e8e5df;
+  background: #fff;
+  color: #171717;
+  border-radius: 6px;
+  font: inherit;
+}

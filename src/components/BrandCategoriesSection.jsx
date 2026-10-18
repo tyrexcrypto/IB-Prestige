@@ -1,5 +1,6 @@
 import brands from "../../data/brands";
 import BrandCard from "./BrandCard";
+import { Link } from "react-router-dom";
 
 function BrandCategoriesSection() {
   return (
@@ -17,9 +18,9 @@ function BrandCategoriesSection() {
         </div>
 
         <div className="button-container">
-          <button className="btn primary-btn section-button">
+          <Link className="btn primary-btn section-button" to="/shop">
             VIEW ALL BRANDS
-          </button>
+          </Link>
         </div>
       </div>
     </section>
