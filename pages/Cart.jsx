@@ -33,61 +33,64 @@ function Cart({
       </header>
 
       <main>
-        <section className="cart">
-          <div className="container">
-            {cart.length === 0 ? (
+        {cart.length === 0 ? (
+          <div className="cart-empty-state">
+            <div>
               <p>Your bag is currently empty.</p>
-            ) : (
-              <div className="cart-items">
-                {cart.map((item) => (
-                  <article className="cart-item" key={item.id}>
-                    <div className="product-img-container">
-                      <img src={item?.img?.src} alt={item.name} />
-                    </div>
-
-                    <div className="cart-item-details">
-                      <div className="watch-details">
-                        <p className="watch-brand-name">
-                          {item.brand.toUpperCase()}
-                        </p>
-                        <h3>{item.name.toUpperCase()}</h3>
-                        <p>{formatPrice(item.price)}</p>
-                      </div>
-                      <div className="quantity-setter">
-                        {item.quantity === 1 ? (
-                          <button disabled={item.quantity === 1}>-</button>
-                        ) : (
-                          <button onClick={() => decreaseQuantity(item.id)}>
-                            -
-                          </button>
-                        )}
-
-                        <span>{item.quantity}</span>
-
-                        <button
-                          type="button"
-                          onClick={() => increaseQuantity(item.id)}
-                          disabled={item.quantity >= item.stockQuantity}
-                          aria-label={`increase ${item.name} quantity`}
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="remove-btn-container">
-                      <button onClick={() => removeFromCart(item.id)}>
-                        <IconContainer>
-                          <DeleteIcon />
-                        </IconContainer>
-                      </button>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            )}
+              <Link to="/shop" className="link primary-btn">
+                Back To Shop
+              </Link>
+            </div>
           </div>
-        </section>
+        ) : (
+          <div className="cart-items">
+            {cart.map((item) => (
+              <article className="cart-item" key={item.id}>
+                <div className="product-img-container">
+                  <img src={item?.img?.src} alt={item.name} />
+                </div>
+
+                <div className="cart-item-details">
+                  <div className="watch-details">
+                    <p className="product-brand-name">
+                      {item.brand.toUpperCase()}
+                    </p>
+                    <h3 className="product-name">{item.name.toUpperCase()}</h3>
+                    <p className="product-price">{formatPrice(item.price)}</p>
+                  </div>
+                  <div className="quantity-setter">
+                    {item.quantity === 1 ? (
+                      <button disabled={item.quantity === 1}>-</button>
+                    ) : (
+                      <button onClick={() => decreaseQuantity(item.id)}>
+                        -
+                      </button>
+                    )}
+
+                    <span>{item.quantity}</span>
+
+                    <button
+                      type="button"
+                      onClick={() => increaseQuantity(item.id)}
+                      disabled={item.quantity >= item.stockQuantity}
+                      aria-label={`increase ${item.name} quantity`}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <div className="remove-btn-container">
+                  <button onClick={() => removeFromCart(item.id)}>
+                    <IconContainer>
+                      <DeleteIcon />
+                    </IconContainer>
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
       </main>
 
       <footer className="cart-footer">

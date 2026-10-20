@@ -85,7 +85,7 @@ function SignIn() {
       const safePath =
         requestedPath && !requestedPath.startsWith("/admin")
           ? requestedPath
-          : "/";
+          : "/account";
 
       navigate(safePath, { replace: true });
     } catch (error) {

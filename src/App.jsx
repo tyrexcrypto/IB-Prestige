@@ -38,6 +38,8 @@ import AdminEditProduct from "../pages/AdminEditProduct";
 
 import PaymentCallback from "../pages/PaymentCallback";
 
+import Account from "../pages/Account";
+
 function App() {
   function readStoredArray(key) {
     try {
@@ -298,6 +300,12 @@ function App() {
 
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route
+          path="/account"
+          element={
+            <Account cartCount={cartCount} wishlistCount={wishlistCount} />
+          }
+        />
 
         <Route path="/supabasetest" element={<SupabaseTest />} />
 

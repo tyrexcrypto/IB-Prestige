@@ -1,0 +1,321 @@
+.account-page {
+  padding-top: 58px;
+  padding-bottom: 90px;
+  min-height: 55vh;
+  color: #171717;
+}
+.account-heading,
+.account-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+}
+.account-heading h1 {
+  margin: 8px 0 10px;
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+.account-muted {
+  color: #707070;
+  margin: 0;
+}
+.account-eyebrow {
+  margin: 0;
+  color: #777;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  font-weight: 700;
+}
+.account-secondary-button,
+.account-primary-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #1b1b1b;
+  padding: 12px 18px;
+  min-height: 44px;
+  background: #fff;
+  color: #171717;
+  text-decoration: none;
+  font: inherit;
+  cursor: pointer;
+}
+.account-primary-button {
+  background: #171717;
+  color: #fff;
+}
+.account-secondary-button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+.account-profile {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 34px 0 62px;
+  padding: 22px 0;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+}
+.account-profile div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.account-profile span {
+  color: #777;
+  font-size: 13px;
+}
+.account-profile strong {
+  overflow-wrap: anywhere;
+  font-size: 15px;
+  font-weight: 600;
+}
+.account-section-heading {
+  margin-bottom: 22px;
+  align-items: center;
+}
+.account-section-heading h2 {
+  margin: 7px 0 0;
+  font-size: clamp(25px, 3vw, 34px);
+  letter-spacing: -0.03em;
+}
+.account-text-link {
+  color: #171717;
+  text-decoration: none;
+  font-size: 14px;
+  border-bottom: 1px solid #999;
+  padding-bottom: 4px;
+}
+.account-order-list {
+  display: grid;
+  gap: 14px;
+}
+.account-order-card {
+  border: 1px solid #e5e5e5;
+  padding: 22px;
+}
+.account-order-topline {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+}
+.account-order-label {
+  color: #777;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+}
+.account-order-topline h3 {
+  margin: 5px 0;
+  font-size: 17px;
+}
+.account-order-topline p {
+  margin: 0;
+  color: #777;
+  font-size: 13px;
+}
+.account-order-total {
+  white-space: nowrap;
+  font-size: 17px;
+}
+.account-order-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 20px 0 14px;
+  color: #777;
+  font-size: 12px;
+}
+.account-status {
+  display: inline-flex;
+  border-radius: 99px;
+  padding: 6px 10px;
+  background: #f2f2f2;
+  color: #333;
+  text-transform: none;
+}
+.account-status--paid,
+.account-status--delivered {
+  background: #eaf6ee;
+  color: #21633b;
+}
+.account-status--failed,
+.account-status--cancelled,
+.account-status--refunded {
+  background: #fff0ef;
+  color: #9a2d28;
+}
+.account-status--pending,
+.account-status--processing,
+.account-status--shipped {
+  background: #f6f0df;
+  color: #765a13;
+}
+.account-order-toggle {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  border: 0;
+  border-top: 1px solid #eee;
+  padding: 15px 0 0;
+  background: transparent;
+  color: #171717;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.account-order-toggle span {
+  font-size: 20px;
+}
+.account-order-details {
+  border-top: 1px solid #eee;
+  margin-top: 15px;
+  padding-top: 8px;
+}
+.account-line-item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.account-line-image {
+  width: 60px;
+  height: 60px;
+  flex: 0 0 60px;
+  background: #f5f5f5;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.account-line-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.account-line-copy {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+.account-line-copy strong {
+  font-size: 13px;
+}
+.account-line-copy span,
+.account-line-copy small {
+  color: #777;
+  font-size: 12px;
+}
+.account-line-item > strong {
+  font-size: 13px;
+  white-space: nowrap;
+}
+.account-totals {
+  max-width: 360px;
+  margin: 18px 0 0 auto;
+}
+.account-totals div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 9px 0;
+  color: #666;
+  font-size: 13px;
+}
+.account-totals .account-grand-total {
+  padding-top: 12px;
+  border-top: 1px solid #ddd;
+  color: #171717;
+  font-size: 15px;
+}
+.account-order-note {
+  margin: 22px 0 0;
+  color: #777;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.account-empty {
+  border: 1px solid #e5e5e5;
+  padding: 45px 24px;
+  text-align: center;
+}
+.account-empty h3 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+.account-empty p {
+  margin: 0 auto 20px;
+  max-width: 440px;
+  color: #777;
+  line-height: 1.6;
+}
+.account-state {
+  padding: 50px 0;
+  text-align: center;
+  color: #777;
+}
+.account-error {
+  margin: 15px 0;
+  padding: 14px;
+  background: #fff1ef;
+  color: #8e2e25;
+  font-size: 14px;
+}
+.account-error button {
+  margin-left: 8px;
+  border: 0;
+  background: transparent;
+  text-decoration: underline;
+  cursor: pointer;
+  color: inherit;
+}
+@media (max-width: 650px) {
+  .account-page {
+    padding-top: 35px;
+    padding-bottom: 55px;
+  }
+  .account-heading {
+    align-items: flex-start;
+  }
+  .account-heading h1 {
+    font-size: 32px;
+  }
+  .account-profile {
+    grid-template-columns: 1fr;
+    gap: 17px;
+    margin: 28px 0 45px;
+  }
+  .account-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .account-order-card {
+    padding: 16px;
+  }
+  .account-order-topline h3 {
+    font-size: 15px;
+  }
+  .account-order-total {
+    font-size: 15px;
+  }
+  .account-line-image {
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
+  }
+  .account-line-item {
+    gap: 9px;
+  }
+  .account-line-item > strong {
+    font-size: 12px;
+  }
+}

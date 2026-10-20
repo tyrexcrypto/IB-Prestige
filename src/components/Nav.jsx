@@ -54,7 +54,11 @@ function NavBar({ cartCount = 0, wishlistCount = 0 }) {
               <span>{wishlistCount}</span>
             </IconContainer>
           </Link>
-          <Link to="/signin" className="link" aria-label="Sign in">
+          <Link
+            to="/account"
+            className="link"
+            aria-label="Your account and order history"
+          >
             <IconContainer>
               <UserIcon />
             </IconContainer>
